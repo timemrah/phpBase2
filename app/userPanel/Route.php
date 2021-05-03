@@ -1,3 +1,3 @@
 <?php
 namespace app\userPanel;
-use sys\core\Route, sys\core\App;
+use sys\Route, sys\App;

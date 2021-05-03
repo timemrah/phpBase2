@@ -3,7 +3,7 @@ namespace app;
 use sys\Route, sys\App;
 
 
-Route::get('/','./app/frontFace','index');
+Route::get('/',            './app/frontFace','index');
 Route::sub('/admin-panel','./app/adminPanel');
 Route::sub('/user-panel', './app/userPanel');
 
