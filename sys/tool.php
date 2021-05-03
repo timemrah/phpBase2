@@ -36,6 +36,12 @@ function dir2ns($dir){
 
 
 
+function ns2dir($namespace){
+    return str_replace('\\', '/', $namespace);
+}
+
+
+
 function unShiftTrim($str, $search){
 
     if(is_string($search)){

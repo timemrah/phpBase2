@@ -8,6 +8,7 @@ class Route
 {
 
 
+
     /* AÇIKLAMA:
      * Route gelen URL isteklerine karşı istenen Controller sınıfını çalıştırır.
      * Rotalama nodeJs'deki Express kütüphanesine benzer.
@@ -20,16 +21,8 @@ class Route
 
 
 
-    protected static $url = null;
-    protected static $urlStep = null;
 
-
-
-
-    public static function setUrl($url){
-        self::$url     = $url;
-        self::$urlStep = $url;
-    }
+    protected static $urlStep = URL;
 
 
 
@@ -40,13 +33,14 @@ class Route
 
         /*prePrint([
             'urlStep'   => self::$urlStep,
-            'url'       => $url,
+            'url'       => URL,
             'appDir'    => $appDir,
             'appMethod' => $appMethod,
         ]);*/
 
         //METHOD DOĞRU DEĞİLSE ROTAYI ATLA
         if($method !== 'ANY' && $_SERVER['REQUEST_METHOD'] !== $method){ return; }
+
 
         //ADRES BASAMAĞINDA BELİRTİLEN $url DEĞERİ YOKSA ROTAYI ATLA
         if(strpos(self::$urlStep, $url) !== 0){ return; }
@@ -55,7 +49,7 @@ class Route
         if(empty($urlStepTest) || strpos($urlStepTest, '/') === 0){
             //prePrint(['run' => 'success']);
             self::$urlStep = str_replace($url, '', self::$urlStep);
-            App::run($appDir, $appMethod);
+            App::run(ns2dir($appDir), $appMethod);
             exit();
         }
 
@@ -64,17 +58,14 @@ class Route
 
 
 
-    public static function sub($method, $url, $routeDir){
+    public static function sub($url, $routeDir){
         if(empty(self::$urlStep)){ exit(); }
 
         /*prePrint([
             'urlStep'  => self::$urlStep,
-            'url'      => $url,
+            'url'      => URL,
             'routeDir' => $routeDir,
         ]);*/
-
-        //METHOD DOĞRU DEĞİLSE ROTAYI ATLA
-        if($_SERVER['REQUEST_METHOD'] !== $method){ return; }
 
         //ADRES BASAMAĞINDA BELİRTİLEN $url DEĞERİ YOKSA ROTAYI ATLA
         if(strpos(self::$urlStep, $url) !== 0){ return; }

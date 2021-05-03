@@ -4,9 +4,11 @@ use sys\Route, sys\App;
 
 
 //sub: /admin-panel
-Route::any('/',         './app/adminPanel',          'index');
-Route::any('/dashboard','./app/adminPanel/dashboard','index');
-Route::any('/profile',  './app/adminPanel/profile',  'index');
+Route::get('/',         './app/adminPanel',          'index');
+Route::get('/dashboard','./app/adminPanel/dashboard','index');
+
+Route::sub('/profile',  './app/adminPanel/profile');
+Route::sub('/user',     './app/adminPanel/user');
 
 
 //HİÇ BİR ROTA ÇALIŞMADIYSA 404 VERELİM
