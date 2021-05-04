@@ -1,7 +1,5 @@
 <?php
 namespace layout;
-use layout\View\Data;
-
 
 
 class View
@@ -9,7 +7,12 @@ class View
 
 
 
-    public Data $data;
+    public array $data = [
+        'headTitle' => '',
+        'headDescription' => '',
+        'title'       => '',
+        'description' => ''
+    ];
     protected array $call = [
         'html' => [],
         'css'  => [],
@@ -21,7 +24,7 @@ class View
 
     public function __construct($param = null)
     {
-        $this->data = new Data();
+
     }
 
 

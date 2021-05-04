@@ -22,7 +22,7 @@ class Route
 
 
 
-    protected static $urlStep = URL;
+    protected static string $urlStep = URL;
 
 
 
@@ -38,8 +38,8 @@ class Route
             'appMethod' => $appMethod,
         ]);*/
 
-        //METHOD DOĞRU DEĞİLSE ROTAYI ATLA
-        if($method !== 'ANY' && $_SERVER['REQUEST_METHOD'] !== $method){ return; }
+        //SUNUCUYA GELEN İSTEĞİN METODU DOĞRU DEĞİLSE ROTAYI ATLA
+        if( !self::methodIsCorrect($method) ){ return; }
 
 
         //ADRES BASAMAĞINDA BELİRTİLEN $url DEĞERİ YOKSA ROTAYI ATLA
@@ -101,4 +101,9 @@ class Route
 
 
 
+
+
+    private static function methodIsCorrect($method): bool {
+        return ($method === 'ANY' || $_SERVER['REQUEST_METHOD'] === $method);
+    }
 }

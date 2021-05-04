@@ -1,13 +1,11 @@
 <?php
-namespace layout\View;
-use layout\View\Data\Head, layout\View\Data\Body;
-
 
 
 class Data
 {
 
-    public $head, $body;
+    public Head $head;
+    public Body $body;
 
     public function __construct()
     {
