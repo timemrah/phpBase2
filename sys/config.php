@@ -4,7 +4,9 @@
     'projectTitle' => 'Yeni Proje Ortamı',
 
 
-    'session' => true,
+    'session'                 => true,
+    'session_lifetime'        => 86400,
+    'session_read_and_close'  => true,
 
 
     'defaultTimezone' => 'Europe/Istanbul',

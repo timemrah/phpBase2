@@ -1,5 +1,6 @@
 <?php
 namespace app\adminPanel;
+use layout\adminPanel\View;
 
 
 
@@ -14,7 +15,7 @@ class Controller extends \app\Controller
         parent::__construct($param);
 
         //CODING:
-        prePrint(['CONTROLLER' => __METHOD__]);
+        //prePrint(['CONTROLLER' => __METHOD__]);
         //CODING//
     }
 
@@ -23,8 +24,12 @@ class Controller extends \app\Controller
 
     function index(){
         //CODING:
-        prePrint(['CONTROLLER' => __METHOD__]);
+        //prePrint(['CONTROLLER' => __METHOD__]);
         //CODING//
+
+        $View = $this->adminPanelLayout();
+        $View->html();
+
     }
 
 
