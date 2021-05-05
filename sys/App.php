@@ -4,6 +4,8 @@ namespace sys;
 
 
 
+use layout\View;
+
 class App
 {
 
@@ -13,7 +15,6 @@ class App
         //UYGULAMA ÇALIŞTIRILMAK İÇİN HAZIRLANIYOR
         $appControllerDir  = $dir;
         $appControllerName = dir2ns($dir).'\\Controller';
-        $appMethodName     = $method;
 
         //DOSYA YOLU AĞACI PARÇALANIYOR
         $controllerDirParts = explode('/', unShiftTrim($appControllerDir, './'));
@@ -29,13 +30,11 @@ class App
         }
 
         //CONTROLLER ÇALIŞTIRILIYOR
-        $Controller = new $appControllerName();
-
-
+        $Controller = new $appControllerName(compact(['dir', 'method']));
 
         //METOD ÇALIŞTIRILIYOR
-        if($appMethodName){ return $Controller->$appMethodName(); }
-        else              { return $Controller; }
+        if($method){ return $Controller->$method(); }
+        else       { return $Controller; }
 
     }
 

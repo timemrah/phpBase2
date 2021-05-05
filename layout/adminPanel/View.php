@@ -9,15 +9,7 @@ class View extends \layout\View
 
 
 
-    public function __construct($param = null)
-    {
-        parent::__construct($param);
-    }
-
-
-
-
-    public function print(){ ?>
+    public function html(){ ?>
 
         <!doctype html>
         <html lang="tr">
@@ -26,6 +18,9 @@ class View extends \layout\View
             <header><?php $this->header() ?></header>
             <main><?php $this->pageContent() ?></main>
             <footer><?php $this->footer() ?></footer>
+
+            <?php $this->callJs() ?>
+
         </body>
         </html>
 
@@ -41,6 +36,8 @@ class View extends \layout\View
               content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title><?= $this->data['headTitle'] ?></title>
+
+        <?php $this->callCss() ?>
 
     <?php }
 
@@ -75,6 +72,9 @@ class View extends \layout\View
         <div>Copyright 2021 - BasePHP2</div>
 
     <?php }
+
+
+
 
 
 

@@ -11,11 +11,12 @@ abstract class Controller
 
     protected $sessionId = null;
     protected $View = null;
+    protected array $app = [];
 
 
 
 
-    public function __construct($param = null)
+    public function __construct(array $app = [])
     {
         ob_start();
 
@@ -27,6 +28,8 @@ abstract class Controller
             ]);
         }
 
+        $this->app = $app;
+
 
         //CODING:
         //prePrint(['CONTROLLER' => __METHOD__]);
@@ -36,10 +39,28 @@ abstract class Controller
 
 
 
-    protected function adminPanelLayout(): \layout\adminPanel\View {
 
-        require "./layout/adminPanel/View.php";
-        return new \layout\adminPanel\View();
+    protected function View($layout){
+
+        require "./layout/{$layout}/View.php";
+
+        $appViewDir = "{$this->app['dir']}/View/{$this->app['method']}";
+        require "{$appViewDir}/View.php";
+
+        $appViewClassName = dir2ns("{$appViewDir}/View");
+        $View = new $appViewClassName();
+        $View->setApp($this->app);
+
+        return $View;
+    }
+
+
+
+
+    public function setApp($dir, $method){
+
+        $this->app['dir'] = $dir;
+        $this->app['method'] = $method;
 
     }
 
