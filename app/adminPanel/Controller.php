@@ -9,9 +9,9 @@ class Controller extends \app\Controller
 
 
 
-    public function __construct($param = null)
+    public function __construct($app = null)
     {
-        parent::__construct($param);
+        parent::__construct($app);
 
         //CODING:
         //prePrint(['CONTROLLER' => __METHOD__]);
@@ -31,10 +31,10 @@ class Controller extends \app\Controller
         //VIEW:
         $View = $this->View('adminPanel');
 
-        $View->data['title']       = 'Admin Sayfa Başlığı';
-        $View->data['description'] = 'Admin sayfası kısa açıklaması.';
-        $View->data['user']        = 'Emrah Tunçel';
-        $View->data['product']     = 'Gofret';
+        $View->body['title']       = 'Admin Sayfa Başlığı';
+        $View->body['description'] = 'Admin sayfası kısa açıklaması.';
+        $View->body['user']        = 'Emrah Tunçel';
+        $View->body['product']     = 'Gofret';
 
         $View->html();
         //VIEW//

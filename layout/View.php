@@ -2,13 +2,14 @@
 namespace layout;
 
 
-class View
+abstract class View
 {
 
-
-    public array $data = [
-        'headTitle' => '',
-        'headDescription' => '',
+    public array $head = [
+        'title' => '',
+        'description' => ''
+    ];
+    public array $body = [
         'title'       => '',
         'description' => ''
     ];
@@ -18,20 +19,14 @@ class View
         'js'   => []
     ];
     protected array $app;
-
-
-
-
-    public function __construct()
-    {
-
-    }
+    protected $appViewDir;
 
 
 
 
     public function setApp($app){
         $this->app = $app;
+        $this->appViewDir = "{$this->app['dir']}/View/{$this->app['method']}";
     }
 
 

@@ -9,8 +9,6 @@ abstract class Controller
 
 
 
-    protected $sessionId = null;
-    protected $View = null;
     protected array $app = [];
 
 
@@ -45,9 +43,9 @@ abstract class Controller
         require "./layout/{$layout}/View.php";
 
         $appViewDir = "{$this->app['dir']}/View/{$this->app['method']}";
-        require "{$appViewDir}/View.php";
+        require "{$appViewDir}/Html.php";
 
-        $appViewClassName = dir2ns("{$appViewDir}/View");
+        $appViewClassName = dir2ns("{$appViewDir}/Html");
         $View = new $appViewClassName();
         $View->setApp($this->app);
 
