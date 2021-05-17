@@ -12,7 +12,7 @@
     'defaultTimezone' => 'Europe/Istanbul',
 
 
-    'dbProfiles' => [
+    'databaseProfile' => [
         0 => [
             'host'       => 'localhost',
             'user'       => 'root',
