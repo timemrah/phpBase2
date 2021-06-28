@@ -3,9 +3,12 @@ namespace app;
 use sys\Route, sys\App;
 
 
-Route::get('/',            './app/frontFace','index');
-Route::sub('/admin-panel','./app/adminPanel');
-Route::sub('/user-panel', './app/userPanel');
+//CONTROLLER ÇALIŞTIR
+Route::get('/','index', '/frontFace');
+
+//ALT ROTA GURUBUNU ÇAĞIR
+Route::sub('/admin-panel','/adminPanel');
+Route::sub('/user-panel', '/userPanel');
 
 
 //HİÇ BİR ROTA ÇALIŞMADIYSA 404 VERELİM

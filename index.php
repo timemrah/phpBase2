@@ -14,4 +14,4 @@ define('URL',      getURL(HOST_DIR));
 define('CONFIG',   require './sys/config.php');
 
 //RUN ROUTE:
-require './app/Route.php';
+\sys\Route::sub(null, './app');

@@ -1,13 +1,15 @@
 <?php
 namespace app\adminPanel;
 use sys\Route, sys\App;
+//sub: url='/admin-panel' dir='./app/adminPanel'
 
 
-//sub: /admin-panel
-Route::get('/',         './app/adminPanel',          'index');
+//CONTROLLER ÇALIŞTIR
+Route::get('/','index');
 
-Route::sub('/profile',  './app/adminPanel/profile');
-Route::sub('/user',     './app/adminPanel/user');
+//ALT ROTA GURUBUNU ÇAĞIR
+Route::sub('/profile',  '/profile');
+Route::sub('/user',     '/user');
 
 
 //HİÇ BİR ROTA ÇALIŞMADIYSA 404 VERELİM

@@ -11,18 +11,24 @@ class Route
 
     /* AÇIKLAMA:
      * Route gelen URL isteklerine karşı istenen Controller sınıfını çalıştırır.
-     * Rotalama nodeJs'deki Express kütüphanesine benzer.
-     * Sistem index.php sayfasında başlar ve ilk rotalar burada belirtilir.
-     * Rotada belirtilen URL değeri adres satırının en başında varsa rota çalışır.
-     * Bu adımdan sonra çalışan rota url'si adres satırındaki değerden silinir ve
-     * bir sonraki rota okumasına aktarılır. Bu şekilde iç içe ilerlemeli bir şekilde
-     * Controller'lar içerisinde dahi rotalar yazılabilmektedir.
+     * Buradaki rota yaklaşımı adım adım çalıştırmadır. Yani rotanın tamamı bir Route ile
+     * belirtilmek zorunda değildir.
+     * Rotada belirtilen URL değeri adres satırındaki URL değerinin en başında varsa rota çalışır.
+     * Bu adımdan sonra çalışan rota URL değeri adres satırındaki URL değerinden silinir ve
+     * bir sonraki rota okumasına aktarılır. Bu şekilde iç içe ilerlemeli bir şekilde rotalama
+     * yapılabilmektedir.
+     * Bu iç içe parçalı rota atamaları Controller'lar içerisinde dahi rotaların yazımına imkan
+     * vermektedir ancak uygun kullanımın rotalara özgü bir dosya oluşturulmasıyla olduğu kanaat
+     * getirilmiştir.
+     * Bu sebeple iç içe geçmiş rota parçaları sub metodu ile belirtilmekte ve her
+     * sub ile belirtilen dosya yolu Route.php dosyası ile karşılanaktadır.
      */
 
 
 
 
-    protected static string $urlStep = URL;
+    protected static string $urlStep   = URL;
+    protected static string $dirMemory = '';
 
 
 
@@ -49,7 +55,21 @@ class Route
         if(empty($urlStepTest) || strpos($urlStepTest, '/') === 0){
             //prePrint(['run' => 'success']);
             self::$urlStep = str_replace($url, '', self::$urlStep);
-            App::run(ns2dir($appDir), $appMethod);
+
+            /* BELİRTİLEN DOSYA YOLU ESKİ DEĞERİN DEVAMI NİTELİĞİNDEYSE
+               ESKİ DEĞERE EKLEME YAPARAK DOSYA YOLUNA BAK
+               DEĞİLSE DİREK YAZILAN DOSYA YOLUNA BAK
+               BU $appDir YAZIMINI KISALTMAKTADIR */
+            if(strpos($appDir, './') === false){
+                self::$dirMemory .= $appDir;
+            } else{
+                self::$dirMemory = $appDir;
+            }
+
+            /*prePrint($appDir);
+            prePrint(self::$dirMemory);*/
+
+            App::run(ns2dir(self::$dirMemory), $appMethod);
             exit();
         }
 
@@ -71,10 +91,24 @@ class Route
         if(strpos(self::$urlStep, $url) !== 0){ return; }
 
         $urlStepTest = str_replace($url, '', self::$urlStep);
-        if(empty($urlStepTest) || strpos($urlStepTest, '/') === 0){
+        if(empty($urlStepTest) || strpos($urlStepTest, '/') === 0 || $url === null){
             //prePrint(['sub' => 'success']);
             self::$urlStep = str_replace($url, '', self::$urlStep);
-            require_once "$routeDir/Route.php";
+
+            /* BELİRTİLEN DOSYA YOLU ESKİ DEĞERİN DEVAMI NİTELİĞİNDEYSE
+               ESKİ DEĞERE EKLEME YAPARAK DOSYA YOLUNA BAK
+               DEĞİLSE DİREK YAZILAN DOSYA YOLUNA BAK
+               BU $routeDir YAZIMINI KISALTMAKTADIR */
+            if(strpos($routeDir, './') === false){
+                self::$dirMemory .= $routeDir;
+            } else{
+                self::$dirMemory = $routeDir;
+            }
+
+            /*prePrint($routeDir);
+            prePrint(self::$dirMemory)*/;
+
+            require_once self::$dirMemory . "/Route.php";
             exit();
         }
     }
@@ -82,19 +116,19 @@ class Route
 
 
 
-    public static function get($url, $appDir, $appMethod){
+    public static function get($url, $appMethod, $appDir = null){
         self::run('GET', $url, $appDir, $appMethod);
     }
-    public static function post($url, $appDir, $appMethod){
+    public static function post($url, $appMethod, $appDir = null){
         self::run('POST', $url, $appDir, $appMethod);
     }
-    public static function put($url, $appDir, $appMethod){
+    public static function put($url, $appMethod, $appDir = null){
         self::run('PUT', $url, $appDir, $appMethod);
     }
-    public static function del($url, $appDir, $appMethod){
+    public static function del($url, $appMethod, $appDir = null){
         self::run('DELETE', $url, $appDir, $appMethod);
     }
-    public static function any($url, $appDir, $appMethod){
+    public static function any($url, $appMethod, $appDir = null){
         self::run('ANY', $url, $appDir, $appMethod);
     }
 
