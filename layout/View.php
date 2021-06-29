@@ -43,4 +43,8 @@ abstract class View
     }
 
 
+
+    protected function html(){}
+
+
 }

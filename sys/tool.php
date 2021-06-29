@@ -36,9 +36,11 @@ function dir2ns($dir){
 
 
 
+
 function ns2dir($namespace){
     return str_replace('\\', '/', $namespace);
 }
+
 
 
 
@@ -61,8 +63,42 @@ function unShiftTrim($str, $search){
 
 
 
-function getURL($hostDir){
-    $url = str_replace($hostDir, '', $_SERVER['REQUEST_URI']);
+function getHostDir(){
+    return pathinfo($_SERVER['PHP_SELF'])['dirname'];
+}
+
+
+
+
+function getURL():string{
+    return $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+}
+
+
+
+
+function getBaseURL():string{
+    $url = str_replace(HOST_DIR, '', $_SERVER['REQUEST_URI']);
     if(substr($url, -1) !== '/'){ $url .= '/'; }
     return $url;
+}
+
+
+
+
+function getBase():string{
+    $base = pathinfo($_SERVER['SCRIPT_NAME'])['dirname'] . '/';
+    if(strpos($base, '//') !== false){
+        $base = str_replace('//', '/', $base);
+    }
+    return $base;
+}
+
+
+
+
+function redirectSSL(){
+    $sslUrl = 'https://' . $_SERVER['HTTP_HOST'] . $_SERVER['REQUEST_URI'];
+    header("HTTP/1.1 301 Moved Permanently");
+    header("Location: {$sslUrl}");
 }

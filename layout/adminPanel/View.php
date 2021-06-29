@@ -18,12 +18,7 @@ class View extends \layout\View
     <header><?php $this->header() ?></header>
     <main class="container-fluid"><?php $this->pageContent() ?></main>
     <footer><?php $this->footer() ?></footer>
-
-    <?php $this->callJs() ?>
-    <!-- BOOTSTRAP -->
-    <script src="vendor/bootstrap-5/js/bootstrap.min.js"></script>
-    <!-- PAGE JS -->
-    <script src="<?= $this->appViewDir ?>/script.js"></script>
+    <?php $this->endOfBody() ?>
 </body>
 </html>
 
@@ -40,6 +35,7 @@ content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=
 <meta http-equiv="X-UA-Compatible" content="ie=edge">
 <meta name="description" content="<?=$this->head['description']?>">
 <title><?= $this->head['title'] ?></title>
+<base href="<?= BASE ?>">
 
 <?php $this->callCss() ?>
 <!-- BOOTSTRAP -->
@@ -49,36 +45,46 @@ content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=
 <!-- PAGE CSS -->
 <link rel="stylesheet" href="<?= $this->appViewDir ?>/style.css">
 
-<?php }
+    <?php }
 
 
 
 
     private function header(){ ?>
 
-
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container-fluid">
-                <a class="navbar-brand" href="#"><i class="fab fa-php"></i> BASE 2</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                    <div class="navbar-nav">
-                        <a class="nav-link active" aria-current="page" href="#">Dashboard</a>
-                        <a class="nav-link" href="#">Users</a>
-                    </div>
-                    <div class="navbar-nav ms-auto">
-                        <a class="nav-link" href="#">
-                            <i class="fas fa-sign-out-alt"></i> Çıkış
-                        </a>
-                    </div>
-                </div>
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <div class="container-fluid">
+        <a class="navbar-brand" href="#"><i class="fab fa-php"></i> BASE 2</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+            <div class="navbar-nav">
+                <a class="nav-link active" aria-current="page" href="#">Dashboard</a>
+                <a class="nav-link" href="#">Users</a>
             </div>
-        </nav>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="#">
+                    <i class="fas fa-sign-out-alt"></i> Çıkış
+                </a>
+            </div>
+        </div>
+    </div>
+</nav>
 
-        <nav aria-label="breadcrumb" class="container-fluid mt-3"><?php $this->breadcrumb() ?></nav>
+<nav aria-label="breadcrumb" class="container-fluid mt-3"><?php $this->breadcrumb() ?></nav>
 
+    <?php }
+
+
+
+
+    private function endOfBody(){
+        $this->callJs() ?>
+        <!-- BOOTSTRAP -->
+        <script src="vendor/bootstrap-5/js/bootstrap.min.js"></script>
+        <!-- PAGE JS -->
+        <script src="<?= $this->appViewDir ?>/script.js"></script>
     <?php }
 
 
@@ -86,14 +92,14 @@ content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=
 
     private function footer(){ ?>
 
-        <nav class="navbar fixed-bottom navbar-light bg-light">
-            <div class="container-fluid d-flex">
-                <div class="text-muted me-auto"><i class="far fa-copyright"></i> <?= date('Y') ?></div>
-                <div class="text-muted">
-                    <i class="fab fa-php"></i> BASE 2
-                </div>
-            </div>
-        </nav>
+<nav class="navbar fixed-bottom navbar-light bg-light">
+    <div class="container-fluid d-flex">
+        <div class="text-muted me-auto"><i class="far fa-copyright"></i> <?= date('Y') ?></div>
+        <div class="text-muted">
+            <i class="fab fa-php"></i> BASE 2
+        </div>
+    </div>
+</nav>
 
     <?php }
 
@@ -102,9 +108,8 @@ content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=
 
     public function breadcrumb(){ ?>
 
-
 <ol class="breadcrumb">
-    <li class="breadcrumb-item active" aria-current="page">Yönetim Panel</li>
+    <li class="breadcrumb-item active" aria-current="page">Base Panel</li>
 </ol>
 
     <?php }
@@ -114,8 +119,7 @@ content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=
 
     public function pageContent(){ ?>
 
-<h1>Boş Sayfa Başlığı</h1>
-<p>Boş sayfa içeriği</p>
+<h1>Admin Panel</h1>
 
     <?php }
 

@@ -1,5 +1,8 @@
 <?php
 
+use sys\App;
+use sys\Route;
+
 //SYS INCLUDE:
 require './sys/tool.php';
 require './sys/Route.php';
@@ -9,9 +12,16 @@ require './sys/App.php';
 require './layout/View.php';
 
 //DEFINES:
-define('HOST_DIR', pathinfo($_SERVER['PHP_SELF'])['dirname']);
-define('URL',      getURL(HOST_DIR));
+define('HOST_DIR', getHostDir());
+define('BASE_URL', getBaseURL());
+define('BASE',     getBase());
 define('CONFIG',   require './sys/config.php');
 
+//REDIRECT TO SSL ADDRESS IF NECESSARY
+if(CONFIG['ssl'] && $_SERVER['REQUEST_SCHEME'] === 'http'){
+    redirectSSL();
+    exit();
+}
+
 //RUN ROUTE:
-\sys\Route::sub(null, './app');
+Route::sub(null, './app');

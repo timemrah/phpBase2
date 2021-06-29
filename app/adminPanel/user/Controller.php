@@ -1,7 +1,7 @@
 <?php
-
-
 namespace app\adminPanel\user;
+
+
 
 
 class Controller extends \app\adminPanel\Controller
@@ -14,7 +14,7 @@ class Controller extends \app\adminPanel\Controller
         parent::__construct($param);
 
         //CODING:
-        prePrint(['CONTROLLER' => __METHOD__]);
+        //prePrint(['CONTROLLER' => __METHOD__]);
         //CODING//
     }
 
@@ -23,8 +23,18 @@ class Controller extends \app\adminPanel\Controller
 
     function index(){
         //CODING:
-        prePrint(['CONTROLLER' => __METHOD__]);
+        //prePrint(['CONTROLLER' => __METHOD__]);
         //CODING//
+
+        //VIEW:
+        $View = $this->View('adminPanel');
+
+        $View->body['title']       = 'Kullanıcılar';
+        $View->body['description'] = 'Kullanıcılar sayfası kısa açıklaması.';
+        $View->body['user']        = 'Emrah Tunçel';
+
+        $View->html();
+        //VIEW//
     }
 
 
@@ -41,8 +51,13 @@ class Controller extends \app\adminPanel\Controller
 
     function create(){
         //CODING:
-        prePrint(['CONTROLLER' => __METHOD__]);
+        //prePrint(['CONTROLLER' => __METHOD__]);
         //CODING//
+
+        $View = $this->View('adminPanel');
+        $View->body['title'] = users();
+        $View->html();
+
     }
 
 

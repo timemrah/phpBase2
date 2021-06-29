@@ -32,7 +32,10 @@
     ],
 
 
-    'defaultLayout' => '_public'
+    'defaultLayout' => '_public',
+
+
+    'ssl' => true
 
 
 ];

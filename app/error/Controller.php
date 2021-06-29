@@ -19,6 +19,7 @@ class Controller extends \app\Controller
 
     function _404_(){
 
+        header( "HTTP/1.1 404 Not Found" );
         prePrint(['CONTROLLER' => __METHOD__]);
 
     }

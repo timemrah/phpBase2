@@ -27,8 +27,9 @@ class Route
 
 
 
-    protected static string $urlStep   = URL;
+    protected static string $urlStep   = BASE_URL;
     protected static string $dirMemory = '';
+    //urlMemory;
 
 
 
@@ -53,7 +54,6 @@ class Route
 
         $urlStepTest = str_replace($url, '', self::$urlStep);
         if(empty($urlStepTest) || strpos($urlStepTest, '/') === 0){
-            //prePrint(['run' => 'success']);
             self::$urlStep = str_replace($url, '', self::$urlStep);
 
             /* BELİRTİLEN DOSYA YOLU ESKİ DEĞERİN DEVAMI NİTELİĞİNDEYSE
@@ -65,9 +65,6 @@ class Route
             } else{
                 self::$dirMemory = $appDir;
             }
-
-            /*prePrint($appDir);
-            prePrint(self::$dirMemory);*/
 
             App::run(ns2dir(self::$dirMemory), $appMethod);
             exit();
@@ -81,18 +78,11 @@ class Route
     public static function sub($url, $routeDir){
         if(empty(self::$urlStep)){ exit(); }
 
-        /*prePrint([
-            'urlStep'  => self::$urlStep,
-            'url'      => URL,
-            'routeDir' => $routeDir,
-        ]);*/
-
         //ADRES BASAMAĞINDA BELİRTİLEN $url DEĞERİ YOKSA ROTAYI ATLA
         if(strpos(self::$urlStep, $url) !== 0){ return; }
 
         $urlStepTest = str_replace($url, '', self::$urlStep);
         if(empty($urlStepTest) || strpos($urlStepTest, '/') === 0 || $url === null){
-            //prePrint(['sub' => 'success']);
             self::$urlStep = str_replace($url, '', self::$urlStep);
 
             /* BELİRTİLEN DOSYA YOLU ESKİ DEĞERİN DEVAMI NİTELİĞİNDEYSE
@@ -104,9 +94,6 @@ class Route
             } else{
                 self::$dirMemory = $routeDir;
             }
-
-            /*prePrint($routeDir);
-            prePrint(self::$dirMemory)*/;
 
             require_once self::$dirMemory . "/Route.php";
             exit();
