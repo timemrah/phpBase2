@@ -16,7 +16,8 @@ class App
         $appControllerDir  = $dir;
         $appControllerName = dir2ns($dir).'\\Controller';
 
-        //DOSYA YOLU AĞACI PARÇALANIYOR
+        // Autoload işleminden sonra gereksiz kaldı :
+        /*//DOSYA YOLU AĞACI PARÇALANIYOR
         $controllerDirParts = explode('/', unShiftTrim($appControllerDir, './'));
         $reqControllerDir   = '.';
 
@@ -24,13 +25,11 @@ class App
         foreach($controllerDirParts as $controllerDirPart){
             $reqControllerDir .= "/$controllerDirPart";
             $controllerSrc     = "$reqControllerDir/Controller.php";
-
-            //Autoload
-            /*if(file_exists($controllerSrc)){
+            if(file_exists($controllerSrc)){
                 require_once $controllerSrc;
-            }*/
-            //Autoload
-        }
+            }
+        }*/
+        // Autoload işleminden sonra gereksiz kaldı //
 
         //CONTROLLER ÇALIŞTIRILIYOR
         $Controller = new $appControllerName(compact(['dir', 'method']));
