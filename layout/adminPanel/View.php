@@ -79,12 +79,12 @@ content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=
 
 
 
-    private function endOfBody(){
-        $this->callJs() ?>
-        <!-- BOOTSTRAP -->
-        <script src="vendor/bootstrap-5/js/bootstrap.min.js"></script>
-        <!-- PAGE JS -->
-        <script src="<?= $this->appViewDir ?>/script.js"></script>
+    private function endOfBody(){?>
+<?php $this->callJs() ?>
+<!-- BOOTSTRAP -->
+<script src="vendor/bootstrap-5/js/bootstrap.min.js"></script>
+<!-- PAGE JS -->
+<script src="<?= $this->appViewDir ?>/script.js"></script>
     <?php }
 
 

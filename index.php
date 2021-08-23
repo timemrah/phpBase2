@@ -1,7 +1,6 @@
 <?php
 
-use sys\App;
-use sys\Route;
+use sys\App, sys\Route;
 
 //SYS INCLUDE:
 require './sys/tool.php';
@@ -20,6 +19,9 @@ define('CONFIG',   require './sys/config.php');
 //REDIRECT TO SSL ADDRESS IF NECESSARY
 if(CONFIG['ssl'] && $_SERVER['REQUEST_SCHEME'] === 'http'){
     redirectSSL();
+    exit();
+} else if(!CONFIG['ssl'] && $_SERVER['REQUEST_SCHEME'] === 'https'){
+    redirectNoSSL();
     exit();
 }
 

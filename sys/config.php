@@ -35,7 +35,7 @@
     'defaultLayout' => '_public',
 
 
-    'ssl' => true
+    'ssl' => false
 
 
 ];
