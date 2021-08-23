@@ -4,8 +4,8 @@ use sys\App, sys\Route;
 
 //SYS INCLUDE:
 require './sys/tool.php';
-require './sys/Route.php';
-require './sys/App.php';
+//require './sys/Route.php'; //Autoload
+//require './sys/App.php';   //Autoload
 
 //VIEW INCLUDE:
 require './layout/View.php';
@@ -24,6 +24,12 @@ if(CONFIG['ssl'] && $_SERVER['REQUEST_SCHEME'] === 'http'){
     redirectNoSSL();
     exit();
 }
+
+//AUTOLOAD CLASS
+spl_autoload_register(function($class){
+    $dir = ns2dir($class);
+    require_once "./{$dir}.php";
+});
 
 //RUN ROUTE:
 Route::sub(null, './app');
