@@ -1,8 +1,6 @@
-<?php
-namespace sys;
+<?php namespace sys;
 
 
-use layout\View;
 
 
 class App
@@ -17,7 +15,7 @@ class App
         $appControllerName = dir2ns($dir).'\\Controller';
 
         // Autoload işleminden sonra gereksiz kaldı :
-        /*//DOSYA YOLU AĞACI PARÇALANIYOR
+        /* //DOSYA YOLU AĞACI PARÇALANIYOR
         $controllerDirParts = explode('/', unShiftTrim($appControllerDir, './'));
         $reqControllerDir   = '.';
 
@@ -28,8 +26,7 @@ class App
             if(file_exists($controllerSrc)){
                 require_once $controllerSrc;
             }
-        }*/
-        // Autoload işleminden sonra gereksiz kaldı //
+        } */
 
         //CONTROLLER ÇALIŞTIRILIYOR
         $Controller = new $appControllerName(compact(['dir', 'method']));

@@ -1,5 +1,4 @@
-<?php
-namespace layout\adminPanel;
+<?php namespace layout\adminPanel;
 
 
 

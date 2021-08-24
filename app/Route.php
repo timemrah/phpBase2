@@ -1,5 +1,4 @@
-<?php
-namespace app;
+<?php namespace app;
 use sys\Route, sys\App;
 
 
@@ -10,8 +9,6 @@ Route::get('/','index', '/frontFace');
 Route::sub('/base-panel', '/basePanel');
 Route::sub('/admin-panel','/adminPanel');
 Route::sub('/user-panel', '/userPanel');
-
-
 
 //HİÇ BİR ROTA ÇALIŞMADIYSA 404 VERELİM
 App::run('./app/error','_404_');
