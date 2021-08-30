@@ -5,20 +5,20 @@ namespace layout;
 abstract class View
 {
 
-    public array $head = [
+    public $head = [
         'title' => '',
         'description' => ''
     ];
-    public array $body = [
+    public $body = [
         'title'       => '',
         'description' => ''
     ];
-    protected array $call = [
+    protected $call = [
         'html' => [],
         'css'  => [],
         'js'   => []
     ];
-    protected array $app;
+    protected $app;
     protected $appViewDir;
 
 
