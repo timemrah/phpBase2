@@ -76,13 +76,10 @@ class Route
 
 
     public static function sub($url, $routeDir){
-        prePrint('1');
         if(empty(self::$urlStep)){ exit(); }
-        prePrint('2');
 
         //ADRES BASAMAĞINDA BELİRTİLEN $url DEĞERİ YOKSA ROTAYI ATLA
         if(strpos(self::$urlStep, $url) !== 0){ return; }
-        prePrint('3');
 
         $urlStepTest = str_replace($url, '', self::$urlStep);
         if(empty($urlStepTest) || strpos($urlStepTest, '/') === 0 || $url === null){

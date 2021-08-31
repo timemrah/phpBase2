@@ -8,13 +8,19 @@ require './sys/tool.php';
 //require './sys/App.php';   //Autoload
 
 //VIEW INCLUDE:
-require './layout/View.php';
+//require './layout/View.php'; //Autoload
 
 //DEFINES:
 define('HOST_DIR', getHostDir());
 define('BASE_URL', getBaseURL());
 define('BASE',     getBase());
 define('CONFIG',   require './sys/config.php');
+
+prePrint([
+    'HOST_DIR' => HOST_DIR,
+    'BASE_URL' => BASE_URL,
+    'BASE' => BASE
+]);
 
 //REDIRECT TO SSL ADDRESS IF NECESSARY
 if(CONFIG['ssl'] && $_SERVER['REQUEST_SCHEME'] === 'http'){
