@@ -44,4 +44,26 @@ class Controller extends \app\Controller
 
 
 
+    function dashboard(){
+
+        //CODING:
+        //prePrint(['CONTROLLER' => __METHOD__]);
+        //CODING//
+
+        //VIEW:
+        $View = $this->View('adminPanel');
+
+        $View->body['title']       = 'Dashboard';
+        $View->body['description'] = 'Dashboard kısa açıklaması.';
+        $View->body['user']        = 'Emrah Tunçel';
+        $View->body['product']     = 'Gofret';
+
+        $View->html();
+        //VIEW//
+
+    }
+
+
+
+
 }

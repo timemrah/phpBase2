@@ -79,7 +79,12 @@ function getURL():string{
 
 function getBaseURL():string{
     $url = str_replace(HOST_DIR, '', $_SERVER['REQUEST_URI']);
-    if(substr($url, -1) !== '/'){ $url .= '/'; }
+    /* Bir URL değerinde 'example.com/test' değeri ile 'example.com/test/' değeri aynı dosyaya işaret
+     * etmesine rağmen PHP ve tarayıcı bu istekleri farklı değerlendirmektedir.
+     * Örneğin PHP $_SRVER süper globali içindeki REQUEST_URI değeri adresteki değeir olduğu gibi vermektedir.
+     * Oysa bu iki kullanımda aynı rotayı işaret etmesine rağmen rota sistemimizde istenmeyen tutarsızlıklara
+     * sebebiyet verdiğinden her URL isteğinin sonuna yoksa bile '/' eklenmektedir. */
+    if(substr($url, -1) === '/'){ $url = substr($url, 0 , -1); }
     return $url;
 }
 

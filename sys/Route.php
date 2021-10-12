@@ -21,40 +21,51 @@ class Route
      * vermektedir ancak uygun kullanımın rotalara özgü bir dosya oluşturulmasıyla olduğu kanaat
      * getirilmiştir.
      * Bu sebeple iç içe geçmiş rota parçaları sub metodu ile belirtilmekte ve her
-     * sub ile belirtilen dosya yolu Route.php dosyası ile karşılanaktadır.
+     * sub ile belirtilen dosya yolu Route.php dosyası ile karşılanmaktadır.
      */
 
 
 
-
+    /* Kontrol edilmesi gereken, kalan url parçası.
+     * En başta göreceli URL'nin tamamı olur, rotalar bu değerin en başıyla eşleştikçe eşleşen parça
+     * silindiği için kısalmaya başlar. */
     protected static $urlStep   = BASE_URL;
+
+    //Bazı durumlarda pratik göreceli dosya yolu yazımı sağlamaktadır.
     protected static $dirMemory = '';
-    //urlMemory;
+
+    /* Rotayla uyum sağlamış çalışması doğrulanmış rotaların url değerlerini tutan dizi.
+     * Görüldü ki rota bir çatala girdiğinde ve o çatalın sonunda rota bulunamadığında çataldan geri çıkarken bu
+     * parçaları $urlStep geri almak zorunda ki diğer çatalda rota kontrolleri tekrar bakılabilsin, rota aransın. */
+    protected static $urlStepHistory = [];
+    protected static $subUrlStepHistory = [];
 
 
 
 
+    //Rota bulunduğunda App::run ile Controller çalıştıran metod
+    /* sub ile run arasındaki en büyük fark!
+     * sub metodu, aranılan $url değeri null iken urlStep değerine bakmaksızın rotayı
+     * çalıştırır. run metodu bunu asla yapmaz, değer eşitliği olduğu sürece çalışır.*/
     private static function run($method, $url, $appDir, $appMethod = null){
 
-        if(empty(self::$urlStep)){ exit(); }
+        echo '--- RUN TEST ---'; $urlStep = self::$urlStep;
+        prePrint(compact('urlStep','url', 'appDir', 'method'));
 
-        /*prePrint([
-            'urlStep'   => self::$urlStep,
-            'url'       => URL,
-            'appDir'    => $appDir,
-            'appMethod' => $appMethod,
-        ]);*/
+        //Esnek yazım için
+        if($url === '/'){ $url = null; }
 
         //SUNUCUYA GELEN İSTEĞİN METODU DOĞRU DEĞİLSE ROTAYI ATLA
         if( !self::methodIsCorrect($method) ){ return; }
 
-
         //ADRES BASAMAĞINDA BELİRTİLEN $url DEĞERİ YOKSA ROTAYI ATLA
-        if(strpos(self::$urlStep, $url) !== 0){ return; }
+        if($url && strpos(self::$urlStep, $url) !== 0){ return; }
 
         $urlStepTest = str_replace($url, '', self::$urlStep);
-        if(empty($urlStepTest) || strpos($urlStepTest, '/') === 0){
+        if(empty($urlStepTest) || (strlen($urlStepTest) === 1 && strpos($urlStepTest, '/') === 0)){
+
             self::$urlStep = str_replace($url, '', self::$urlStep);
+            self::$urlStepHistory[] = $url;
 
             /* BELİRTİLEN DOSYA YOLU ESKİ DEĞERİN DEVAMI NİTELİĞİNDEYSE
                ESKİ DEĞERE EKLEME YAPARAK DOSYA YOLUNA BAK
@@ -66,8 +77,13 @@ class Route
                 self::$dirMemory = $appDir;
             }
 
+            echo '--- RUN SUCCESS ---<br />';
             App::run(ns2dir(self::$dirMemory), $appMethod);
-            exit();
+
+            //URL'ye tamamen bakıldıysa daha rota bakma
+            if(empty(self::$urlStep)){
+                exit();
+            }
         }
 
     }
@@ -75,15 +91,31 @@ class Route
 
 
 
+    //Rota bulunduğunda bir alt rota gurubuna bakılmasını sağlayan metod.
+    /* sub ile run arasındaki en büyük fark!
+     * sub metodu, aranılan $url değeri null iken urlStep değerine bakmaksızın rotayı
+     * çalıştırır. run metodu bunu asla yapmaz, değer eşitliği olduğu sürece çalışır.
+     * Çünkü sub'ın görevi gelen isteği bir alt(iç) guruba yönlendirebilmektir. Oysa run'ın
+     * görevi belirlenen hedef Controller'i çalıştırmaktır. Alt Controller veya rota sözkonusu değildir.*/
     public static function sub($url, $routeDir){
-        if(empty(self::$urlStep)){ exit(); }
+
+        echo '--- SUB TEST ---'; $urlStep = self::$urlStep;
+        prePrint(compact('urlStep', 'url', 'routeDir'));
+
+        //Esnek yazım için
+        if($url === '/'){ $url = null; }
 
         //ADRES BASAMAĞINDA BELİRTİLEN $url DEĞERİ YOKSA ROTAYI ATLA
-        if(strpos(self::$urlStep, $url) !== 0){ return; }
+        if($url && strpos(self::$urlStep, $url) !== 0){ return; }
+        /* $url 'null' veya '' iken strpos her zaman veriyi ilk sırada bulduğunu söyler,
+         * yani 0. indiste. */
 
         $urlStepTest = str_replace($url, '', self::$urlStep);
         if(empty($urlStepTest) || strpos($urlStepTest, '/') === 0 || $url === null){
+
             self::$urlStep = str_replace($url, '', self::$urlStep);
+            self::$urlStepHistory[]    = $url;
+            self::$subUrlStepHistory[] = $url;
 
             /* BELİRTİLEN DOSYA YOLU ESKİ DEĞERİN DEVAMI NİTELİĞİNDEYSE
                ESKİ DEĞERE EKLEME YAPARAK DOSYA YOLUNA BAK
@@ -95,8 +127,13 @@ class Route
                 self::$dirMemory = $routeDir;
             }
 
+            echo '--- SUB SUCCESS ---<br />';
             require_once self::$dirMemory . "/Route.php";
-            exit();
+
+            //URL'ye tamamen bakıldıysa daha rota bakma
+            if(empty(self::$urlStep)){
+                exit();
+            }
         }
     }
 

@@ -16,11 +16,13 @@ define('BASE_URL', getBaseURL());
 define('BASE',     getBase());
 define('CONFIG',   require './sys/config.php');
 
-prePrint([
+/*prePrint([
+    'URL' => getURL(),
+    'REQUEST_URI' => $_SERVER['REQUEST_URI'],
     'HOST_DIR' => HOST_DIR,
     'BASE_URL' => BASE_URL,
-    'BASE' => BASE
-]);
+    'BASE'     => BASE
+]);*/
 
 //REDIRECT TO SSL ADDRESS IF NECESSARY
 if(CONFIG['ssl'] && $_SERVER['REQUEST_SCHEME'] === 'http'){
@@ -38,4 +40,4 @@ spl_autoload_register(function($class){
 });
 
 //RUN ROUTE:
-Route::sub(null, './app');
+Route::sub('/', './app');

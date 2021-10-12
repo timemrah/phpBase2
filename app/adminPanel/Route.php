@@ -5,12 +5,9 @@ use sys\Route, sys\App;
 
 
 //CONTROLLER ÇALIŞTIR
-Route::get('/','index');
+Route::get('/asd','dashboard');
+Route::get(null,'index');
 
 //ALT ROTA GURUBUNU ÇAĞIR
 Route::sub('/profile',  '/profile');
 Route::sub('/user',     '/user');
-
-
-//HİÇ BİR ROTA ÇALIŞMADIYSA 404 VERELİM
-App::run('./app/error','_404_');

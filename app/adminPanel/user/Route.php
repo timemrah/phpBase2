@@ -1,16 +1,15 @@
 <?php
 namespace app\adminPanel\user;
 use sys\Route, sys\App;
-//sub: url='/admin-panel/user' dir='./app/adminPanel/user'
+/* subUrl: /admin-panel/user
+ * subDir: ./app/adminPanel/user */
 
 
-//CONTROLLER ÇALIŞTIR
-Route::get ('/',      'index');
-Route::get ('/detail','detail');
+Route::get ('/','index');
 Route::post('/','create');
 Route::put ('/','update');
 Route::del ('/','delete');
 
-
-//HİÇ BİR ROTA ÇALIŞMADIYSA 404 VERELİM
-App::run('./app/error','_404_');
+Route::get ('/detail','detail');
+Route::get ('/detail/set','setDetail');
+Route::get ('/detail/{(int)id}','setDetail');

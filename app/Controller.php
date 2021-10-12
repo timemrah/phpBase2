@@ -9,7 +9,7 @@ abstract class Controller
 
 
 
-    protected array $app = [];
+    protected $app = [];
 
 
 

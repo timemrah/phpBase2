@@ -48,6 +48,14 @@ class Controller extends \app\adminPanel\Controller
 
 
 
+    function setDetail(){
+        //CODING:
+        prePrint(['CONTROLLER' => __METHOD__]);
+        //CODING//
+    }
+
+
+
 
     function create(){
         //CODING:
