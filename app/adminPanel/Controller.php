@@ -29,7 +29,9 @@ class Controller extends \app\Controller
         //CODING//
 
         //VIEW:
-        $View = $this->View('adminPanel');
+        /*$View = new View\index\View();
+        $View->setApp($this->app);*/
+        $View = $this->View();
 
         $View->body['title']       = 'Admin Sayfa Başlığı';
         $View->body['description'] = 'Admin sayfası kısa açıklaması.';

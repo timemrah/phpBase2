@@ -41,3 +41,4 @@ spl_autoload_register(function($class){
 
 //RUN ROUTE:
 Route::sub('/', './app');
+// url'ye yazılan '/' içeride null değere çevriliyor. Globalde hep bu şekilde gösterildiği için '/' kullanıyoruz.

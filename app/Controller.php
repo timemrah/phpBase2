@@ -38,18 +38,20 @@ abstract class Controller
 
 
 
-    protected function View($layout){
-
-        require "./layout/{$layout}/View.php";
+    protected function View($viewFileName = null){
 
         $appViewDir = "{$this->app['dir']}/View/{$this->app['method']}";
-        require "{$appViewDir}/Html.php";
 
-        $appViewClassName = dir2ns("{$appViewDir}/Html");
+        /* Uygulamanın View klasöründeki çıktı sınıfı elle belirtilmiş ise elle belirtilen sınıfı, belirtilmemiş ise
+         * varsayılan sınıf olan View sınıfını örnekleyelim. */
+        $appViewClassName = $viewFileName
+            ? dir2ns("{$appViewDir}/{$viewFileName}")
+            : dir2ns("{$appViewDir}/View");
+
         $View = new $appViewClassName();
         $View->setApp($this->app);
-
         return $View;
+
     }
 
 
@@ -57,7 +59,7 @@ abstract class Controller
 
     public function setApp($dir, $method){
 
-        $this->app['dir'] = $dir;
+        $this->app['dir']    = $dir;
         $this->app['method'] = $method;
 
     }

@@ -30,6 +30,38 @@ abstract class View
     }
 
 
+    public function setJs($keyValue){
+
+        if(!is_array($keyValue)){
+            $keyValue = [$keyValue];
+        }
+
+        foreach($keyValue as $key => $value){
+            if(is_numeric($key)){
+                $this->call['js'][] = $value;
+                continue;
+            }
+            $this->call['js'][$key] = $value;
+        }
+    }
+
+
+    public function setCss($keyValue){
+
+        if(!is_array($keyValue)){
+            $keyValue = [$keyValue];
+        }
+
+        foreach($keyValue as $key => $value){
+            if(is_numeric($key)){
+                $this->call['css'][] = $value;
+                continue;
+            }
+            $this->call['css'][$key] = $value;
+        }
+    }
+
+
 
     protected function callCss(){
         foreach ($this->call['css'] as $key => $css) {
@@ -44,7 +76,7 @@ abstract class View
 
 
 
-    protected function html(){}
+    abstract protected function html();
 
 
 }

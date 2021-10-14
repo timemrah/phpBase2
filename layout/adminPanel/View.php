@@ -3,7 +3,9 @@
 
 
 
-class View extends \layout\View
+use sys\Route;
+
+abstract class View extends \layout\View
 {
 
 
@@ -105,22 +107,8 @@ content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=
 
 
 
-    public function breadcrumb(){ ?>
-
-<ol class="breadcrumb">
-    <li class="breadcrumb-item active" aria-current="page">Base Panel</li>
-</ol>
-
-    <?php }
-
-
-
-
-    public function pageContent(){ ?>
-
-<h1>Admin Panel</h1>
-
-    <?php }
+    abstract protected function breadcrumb();
+    abstract protected function pageContent();
 
 
 

@@ -5,7 +5,7 @@ use sys\Route, sys\App;
 
 
 //CONTROLLER ÇALIŞTIR
-Route::get('/asd','dashboard');
+Route::get('/dashboard','dashboard');
 Route::get(null,'index');
 
 //ALT ROTA GURUBUNU ÇAĞIR

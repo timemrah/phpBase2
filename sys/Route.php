@@ -39,6 +39,8 @@ class Route
      * parçaları $urlStep geri almak zorunda ki diğer çatalda rota kontrolleri tekrar bakılabilsin, rota aransın. */
     protected static $urlStepHistory = [];
     protected static $subUrlStepHistory = [];
+    protected static $urlStepHistoryInfo = '';
+    protected static $urlStepTestHistoryInfo = '';
 
 
 
@@ -49,8 +51,10 @@ class Route
      * çalıştırır. run metodu bunu asla yapmaz, değer eşitliği olduğu sürece çalışır.*/
     private static function run($method, $url, $appDir, $appMethod = null){
 
-        echo '--- RUN TEST ---'; $urlStep = self::$urlStep;
-        prePrint(compact('urlStep','url', 'appDir', 'method'));
+        self::$urlStepTestHistoryInfo .= " {$url}(run) ";
+
+        /*echo '--- RUN TEST ---'; $urlStep = self::$urlStep;
+        prePrint(compact('urlStep','url', 'appDir', 'method'));*/
 
         //Esnek yazım için
         if($url === '/'){ $url = null; }
@@ -65,7 +69,9 @@ class Route
         if(empty($urlStepTest) || (strlen($urlStepTest) === 1 && strpos($urlStepTest, '/') === 0)){
 
             self::$urlStep = str_replace($url, '', self::$urlStep);
+            //Kullanabileceğimiz kayıtlar. Henüz kullanılmadılar.
             self::$urlStepHistory[] = $url;
+            self::$urlStepHistoryInfo .= " {$url}(run)";
 
             /* BELİRTİLEN DOSYA YOLU ESKİ DEĞERİN DEVAMI NİTELİĞİNDEYSE
                ESKİ DEĞERE EKLEME YAPARAK DOSYA YOLUNA BAK
@@ -77,7 +83,7 @@ class Route
                 self::$dirMemory = $appDir;
             }
 
-            echo '--- RUN SUCCESS ---<br />';
+            //echo '--- RUN SUCCESS ---<br />';
             App::run(ns2dir(self::$dirMemory), $appMethod);
 
             //URL'ye tamamen bakıldıysa daha rota bakma
@@ -99,8 +105,10 @@ class Route
      * görevi belirlenen hedef Controller'i çalıştırmaktır. Alt Controller veya rota sözkonusu değildir.*/
     public static function sub($url, $routeDir){
 
-        echo '--- SUB TEST ---'; $urlStep = self::$urlStep;
-        prePrint(compact('urlStep', 'url', 'routeDir'));
+        self::$urlStepTestHistoryInfo .= " {$url}(sub) ";
+
+        /*echo '--- SUB TEST ---'; $urlStep = self::$urlStep;
+        prePrint(compact('urlStep', 'url', 'routeDir'));*/
 
         //Esnek yazım için
         if($url === '/'){ $url = null; }
@@ -114,8 +122,10 @@ class Route
         if(empty($urlStepTest) || strpos($urlStepTest, '/') === 0 || $url === null){
 
             self::$urlStep = str_replace($url, '', self::$urlStep);
+            //Kullanabileceğimiz kayıtlar. Henüz kullanılmadılar.
             self::$urlStepHistory[]    = $url;
             self::$subUrlStepHistory[] = $url;
+            self::$urlStepHistoryInfo .= " {$url}(sub) ";
 
             /* BELİRTİLEN DOSYA YOLU ESKİ DEĞERİN DEVAMI NİTELİĞİNDEYSE
                ESKİ DEĞERE EKLEME YAPARAK DOSYA YOLUNA BAK
@@ -127,7 +137,7 @@ class Route
                 self::$dirMemory = $routeDir;
             }
 
-            echo '--- SUB SUCCESS ---<br />';
+            //echo '--- SUB SUCCESS ---<br />';
             require_once self::$dirMemory . "/Route.php";
 
             //URL'ye tamamen bakıldıysa daha rota bakma
@@ -157,7 +167,10 @@ class Route
     }
 
 
-
+    //DEBUG
+    public static function getUrlStepHistoryInfo(){
+        prePrint(self::$urlStepHistoryInfo);
+    }
 
 
 
