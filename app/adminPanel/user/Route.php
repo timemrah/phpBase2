@@ -5,7 +5,7 @@ use sys\Route, sys\App;
  * subDir: ./app/adminPanel/user */
 
 
-Route::get ('/','index');
+Route::get('/','index');
 Route::post('/','create');
 Route::put ('/','update');
 Route::del ('/','delete');

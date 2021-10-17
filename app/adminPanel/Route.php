@@ -5,8 +5,8 @@ use sys\Route, sys\App;
 
 
 //CONTROLLER ÇALIŞTIR
+Route::get('/','index');
 Route::get('/dashboard','dashboard');
-Route::get(null,'index');
 
 //ALT ROTA GURUBUNU ÇAĞIR
 Route::sub('/profile',  '/profile');

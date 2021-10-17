@@ -38,9 +38,6 @@ class Route
      * Görüldü ki rota bir çatala girdiğinde ve o çatalın sonunda rota bulunamadığında çataldan geri çıkarken bu
      * parçaları $urlStep geri almak zorunda ki diğer çatalda rota kontrolleri tekrar bakılabilsin, rota aransın. */
     protected static $urlStepHistory = [];
-    protected static $subUrlStepHistory = [];
-    protected static $urlStepHistoryInfo = '';
-    protected static $urlStepTestHistoryInfo = '';
 
 
 
@@ -49,12 +46,7 @@ class Route
     /* sub ile run arasındaki en büyük fark!
      * sub metodu, aranılan $url değeri null iken urlStep değerine bakmaksızın rotayı
      * çalıştırır. run metodu bunu asla yapmaz, değer eşitliği olduğu sürece çalışır.*/
-    private static function run($method, $url, $appDir, $appMethod = null){
-
-        self::$urlStepTestHistoryInfo .= " {$url}(run) ";
-
-        /*echo '--- RUN TEST ---'; $urlStep = self::$urlStep;
-        prePrint(compact('urlStep','url', 'appDir', 'method'));*/
+    public static function run($method, $url, $appDir, $appMethod){
 
         //Esnek yazım için
         if($url === '/'){ $url = null; }
@@ -62,21 +54,19 @@ class Route
         //SUNUCUYA GELEN İSTEĞİN METODU DOĞRU DEĞİLSE ROTAYI ATLA
         if( !self::methodIsCorrect($method) ){ return; }
 
-        //ADRES BASAMAĞINDA BELİRTİLEN $url DEĞERİ YOKSA ROTAYI ATLA
+        //ARANAN URL, MEVCUT ADRES BASAMAĞININ EN BAŞINDA DEĞİLSE BU ROTAYI ATLA
         if($url && strpos(self::$urlStep, $url) !== 0){ return; }
 
         $urlStepTest = str_replace($url, '', self::$urlStep);
         if(empty($urlStepTest) || (strlen($urlStepTest) === 1 && strpos($urlStepTest, '/') === 0)){
 
             self::$urlStep = str_replace($url, '', self::$urlStep);
-            //Kullanabileceğimiz kayıtlar. Henüz kullanılmadılar.
-            self::$urlStepHistory[] = $url;
-            self::$urlStepHistoryInfo .= " {$url}(run)";
 
-            /* BELİRTİLEN DOSYA YOLU ESKİ DEĞERİN DEVAMI NİTELİĞİNDEYSE
-               ESKİ DEĞERE EKLEME YAPARAK DOSYA YOLUNA BAK
-               DEĞİLSE DİREK YAZILAN DOSYA YOLUNA BAK
-               BU $appDir YAZIMINI KISALTMAKTADIR */
+            //Çalışan rotayı geçmiş kaydına ekleyelim. Nerde kullanacağımızı bilemiyoruz
+            self::$urlStepHistory[] = [ 'type' => 'run', 'url' => $url, 'method' => $method];
+
+            /* BELİRTİLEN DOSYA YOLU ESKİ DEĞERİN DEVAMI NİTELİĞİNDEYSE ESKİ DEĞERE EKLEME YAPARAK DOSYA YOLUNA BAK
+               DEĞİLSE DİREK YAZILAN DOSYA YOLUNA BAK BU $appDir YAZIMINI KISALTMAKTADIR */
             if(strpos($appDir, './') === false){
                 self::$dirMemory .= $appDir;
             } else{
@@ -88,8 +78,10 @@ class Route
 
             //URL'ye tamamen bakıldıysa daha rota bakma
             if(empty(self::$urlStep)){
+                prePrint(self::getUrlStepHistoryInfo());
                 exit();
             }
+
         }
 
     }
@@ -105,15 +97,11 @@ class Route
      * görevi belirlenen hedef Controller'i çalıştırmaktır. Alt Controller veya rota sözkonusu değildir.*/
     public static function sub($url, $routeDir){
 
-        self::$urlStepTestHistoryInfo .= " {$url}(sub) ";
-
-        /*echo '--- SUB TEST ---'; $urlStep = self::$urlStep;
-        prePrint(compact('urlStep', 'url', 'routeDir'));*/
 
         //Esnek yazım için
         if($url === '/'){ $url = null; }
 
-        //ADRES BASAMAĞINDA BELİRTİLEN $url DEĞERİ YOKSA ROTAYI ATLA
+        //ARANAN URL, MEVCUT ADRES BASAMAĞININ EN BAŞINDA DEĞİLSE BU ROTAYI ATLA
         if($url && strpos(self::$urlStep, $url) !== 0){ return; }
         /* $url 'null' veya '' iken strpos her zaman veriyi ilk sırada bulduğunu söyler,
          * yani 0. indiste. */
@@ -122,15 +110,12 @@ class Route
         if(empty($urlStepTest) || strpos($urlStepTest, '/') === 0 || $url === null){
 
             self::$urlStep = str_replace($url, '', self::$urlStep);
-            //Kullanabileceğimiz kayıtlar. Henüz kullanılmadılar.
-            self::$urlStepHistory[]    = $url;
-            self::$subUrlStepHistory[] = $url;
-            self::$urlStepHistoryInfo .= " {$url}(sub) ";
 
-            /* BELİRTİLEN DOSYA YOLU ESKİ DEĞERİN DEVAMI NİTELİĞİNDEYSE
-               ESKİ DEĞERE EKLEME YAPARAK DOSYA YOLUNA BAK
-               DEĞİLSE DİREK YAZILAN DOSYA YOLUNA BAK
-               BU $routeDir YAZIMINI KISALTMAKTADIR */
+            //Çalışan rotayı geçmiş kaydına ekleyelim. Nerde kullanacağımızı bilemiyoruz
+            self::$urlStepHistory[] = ['type' => 'sub', 'url' => $url];
+
+            /* BELİRTİLEN DOSYA YOLU ESKİ DEĞERİN DEVAMI NİTELİĞİNDEYSE ESKİ DEĞERE EKLEME YAPARAK DOSYA YOLUNA BAK
+               DEĞİLSE DİREK YAZILAN DOSYA YOLUNA BAK BU $routeDir YAZIMINI KISALTMAKTADIR */
             if(strpos($routeDir, './') === false){
                 self::$dirMemory .= $routeDir;
             } else{
@@ -141,9 +126,11 @@ class Route
             require_once self::$dirMemory . "/Route.php";
 
             //URL'ye tamamen bakıldıysa daha rota bakma
-            if(empty(self::$urlStep)){
+            /*if(empty(self::$urlStep)){
                 exit();
-            }
+            }*/
+            //Bu görevi run üstlenmelidir.
+
         }
     }
 
@@ -167,14 +154,33 @@ class Route
     }
 
 
-    //DEBUG
-    public static function getUrlStepHistoryInfo(){
-        prePrint(self::$urlStepHistoryInfo);
-    }
-
 
 
     private static function methodIsCorrect($method): bool {
-        return ($method === 'ANY' || $_SERVER['REQUEST_METHOD'] === $method);
+
+        if($method === 'ANY') { return true; }
+        if(is_string($method)){ return $_SERVER['REQUEST_METHOD'] === $method; }
+        if(is_array($method)) { return in_array($_SERVER['REQUEST_METHOD'], $method); }
+
+        return false;
     }
+
+
+
+
+    //DEBUG
+    public static function getUrlStepHistoryInfo($show = []):string{
+
+        $type = $show['type'] ?? false;
+
+        $returnString = '';
+
+        foreach(self::$urlStepHistory as $urlStep){
+            $returnString .= $urlStep['url'];
+        }
+
+        return $returnString;
+    }
+
+
 }

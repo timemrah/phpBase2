@@ -97,6 +97,7 @@ content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=
     <div class="container-fluid d-flex">
         <div class="text-muted me-auto"><i class="far fa-copyright"></i> <?= date('Y') ?></div>
         <div class="text-muted">
+            <?=Route::getUrlStepHistoryInfo()?>
             <i class="fab fa-php"></i> BASE 2
         </div>
     </div>

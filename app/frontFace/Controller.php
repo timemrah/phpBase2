@@ -24,7 +24,7 @@ class Controller extends \app\Controller
         //prePrint(['CONTROLLER' => __METHOD__]);
         //CODING//
 
-        $View = $this->View('adminPanel');
+        $View = $this->View();
 
         $View->body['title']       = 'Public Sayfa Başlığı';
         $View->body['description'] = 'Public Anasayfa kısa açıklaması.';

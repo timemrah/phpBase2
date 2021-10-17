@@ -53,7 +53,7 @@ class Controller extends \app\Controller
         //CODING//
 
         //VIEW:
-        $View = $this->View('adminPanel');
+        $View = $this->View();
 
         $View->body['title']       = 'Dashboard';
         $View->body['description'] = 'Dashboard kısa açıklaması.';

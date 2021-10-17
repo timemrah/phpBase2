@@ -27,7 +27,7 @@ class Controller extends \app\adminPanel\Controller
         //CODING//
 
         //VIEW:
-        $View = $this->View('adminPanel');
+        $View = $this->View();
 
         $View->body['title']       = 'Kullanıcılar';
         $View->body['description'] = 'Kullanıcılar sayfası kısa açıklaması.';
@@ -62,7 +62,7 @@ class Controller extends \app\adminPanel\Controller
         //prePrint(['CONTROLLER' => __METHOD__]);
         //CODING//
 
-        $View = $this->View('adminPanel');
+        $View = $this->View();
         $View->body['title'] = users();
         $View->html();
 

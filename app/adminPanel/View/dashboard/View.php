@@ -4,7 +4,7 @@ namespace app\adminPanel\View\dashboard;
 
 
 
-class Html extends \layout\adminPanel\View
+class View extends \layout\adminPanel\View
 {
 
 

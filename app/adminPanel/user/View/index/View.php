@@ -4,7 +4,7 @@ namespace app\adminPanel\user\View\index;
 
 
 
-class Html extends \layout\adminPanel\View
+class View extends \layout\adminPanel\View
 {
 
 

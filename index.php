@@ -4,11 +4,6 @@ use sys\App, sys\Route;
 
 //SYS INCLUDE:
 require './sys/tool.php';
-//require './sys/Route.php'; //Autoload
-//require './sys/App.php';   //Autoload
-
-//VIEW INCLUDE:
-//require './layout/View.php'; //Autoload
 
 //DEFINES:
 define('HOST_DIR', getHostDir());
